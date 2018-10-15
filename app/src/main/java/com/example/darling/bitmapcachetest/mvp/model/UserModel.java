@@ -92,7 +92,6 @@ public class UserModel extends BaseModel implements BitmapCacheContract.Model {
         try {
             //对资源链接
             URL url = new URL(iPath);
-            ;
             Observable<Bitmap> observable = Observable.just(url)
                     .map(new Function<URL, Bitmap>() {
                         @Override
@@ -106,6 +105,7 @@ public class UserModel extends BaseModel implements BitmapCacheContract.Model {
                         }
                     });
 
+            //Open inputStream again, for add to disk cache
             Disposable disposable1 = Observable.just(url)
                     .map(new Function<URL, DiskLruCache.Editor>() {
                 @Override
@@ -128,6 +128,7 @@ public class UserModel extends BaseModel implements BitmapCacheContract.Model {
                                 while ((hasRead = inputStream.read()) != -1) {
                                     outputStream.write(hasRead);
                                 }
+                                inputStream.close();
                                 outputStream.close();
                             }
                         }

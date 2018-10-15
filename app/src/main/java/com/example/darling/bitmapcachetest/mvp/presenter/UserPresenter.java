@@ -113,8 +113,10 @@ public class UserPresenter extends BasePresenter<BitmapCacheContract.Model, Bitm
 
     public Bitmap getBitmap(String iPath,SetImagefromNet setImagefromNet) {
 
+        //Get bitmap from cache first
         Bitmap bitmap = mModel.getBitmap(iPath);
         if (bitmap == null) {
+            //Download bitmap from server
             mModel.downloadBitmap(iPath)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
